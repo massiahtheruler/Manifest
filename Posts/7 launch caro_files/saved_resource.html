@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html dir="auto" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src &#39;unsafe-inline&#39; &#39;unsafe-eval&#39; https: data: blob:; connect-src &#39;none&#39;; form-action &#39;none&#39;; base-uri &#39;none&#39;">
+<script id="__base44_dark_class__">document.documentElement.classList.remove('dark');</script>
+<script id="__base44_artifact_popup_hardening__">
+(function () {
+  var nativeOpen = typeof window.open === 'function' ? window.open.bind(window) : null;
+  function safePopupUrl(url) {
+    if (typeof url !== 'string' || !url) return null;
+    try {
+      var parsed = new URL(url);
+      return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.href : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function mergeRel(anchor) {
+    var current = (anchor.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+    if (current.indexOf('noopener') === -1) current.push('noopener');
+    if (current.indexOf('noreferrer') === -1) current.push('noreferrer');
+    anchor.setAttribute('rel', current.join(' '));
+  }
+  function closestAnchor(target) {
+    if (!target) return null;
+    var el = target.nodeType === 1 ? target : target.parentElement;
+    return el && el.closest ? el.closest('a[href],a[xlink\:href]') : null;
+  }
+  function linkTarget(anchor) {
+    var target = (anchor.getAttribute('target') || '').toLowerCase();
+    if (target) return target;
+    var base = document.querySelector('base[target]');
+    return base ? (base.getAttribute('target') || '').toLowerCase() : '';
+  }
+  function linkHref(anchor) {
+    var attr = anchor.getAttribute('href') || anchor.getAttribute('xlink:href');
+    if (attr) return attr;
+    if (typeof anchor.href === 'string') return anchor.href;
+    if (anchor.href && typeof anchor.href.baseVal === 'string') return anchor.href.baseVal;
+    return '';
+  }
+  function hasDownload(anchor) {
+    return typeof anchor.hasAttribute === 'function' && anchor.hasAttribute('download');
+  }
+  function withNoopener(features) {
+    var parts = typeof features === 'string' && features
+      ? features.split(',').map(function (part) { return part.trim(); }).filter(Boolean)
+      : [];
+    var keys = parts.map(function (part) { return part.split('=')[0].toLowerCase(); });
+    if (keys.indexOf('noopener') === -1) parts.push('noopener');
+    if (keys.indexOf('noreferrer') === -1) parts.push('noreferrer');
+    return parts.join(',');
+  }
+  function openHardened(url, target, features) {
+    if (!nativeOpen) return null;
+    var safeUrl = safePopupUrl(url);
+    if (!safeUrl) return null;
+    return nativeOpen(safeUrl, target || '_blank', withNoopener(features));
+  }
+  function hardenAnchor(anchor) {
+    try { mergeRel(anchor); } catch (e) {}
+    try { anchor.setAttribute('referrerpolicy', 'no-referrer'); } catch (e) {}
+  }
+  function handleAnchorOpen(event) {
+    if (event.defaultPrevented) return;
+    if (event.type === 'click' && event.button !== 0) return;
+    if (event.type === 'auxclick' && event.button !== 1) return;
+    var anchor = closestAnchor(event.target);
+    if (!anchor || linkTarget(anchor) !== '_blank') return;
+    hardenAnchor(anchor);
+    if (hasDownload(anchor)) return;
+    event.preventDefault();
+    return openHardened(linkHref(anchor), '_blank');
+  }
+  function handleAnchorContextMenu(event) {
+    var anchor = closestAnchor(event.target);
+    if (!anchor || linkTarget(anchor) !== '_blank') return;
+    hardenAnchor(anchor);
+    if (!safePopupUrl(linkHref(anchor))) event.preventDefault();
+  }
+  function preflightAnchorOpen(event) {
+    if (event.defaultPrevented) return;
+    if (event.type === 'click' && event.button !== 0) return;
+    if (event.type === 'auxclick' && event.button !== 1) return;
+    var anchor = closestAnchor(event.target);
+    if (!anchor || linkTarget(anchor) !== '_blank') return;
+    if (!safePopupUrl(linkHref(anchor))) {
+      event.preventDefault();
+      return;
+    }
+    hardenAnchor(anchor);
+  }
+  document.addEventListener('click', preflightAnchorOpen, true);
+  document.addEventListener('auxclick', preflightAnchorOpen, true);
+  function bindLinkHandlers() {
+    document.addEventListener('click', handleAnchorOpen, false);
+    document.addEventListener('auxclick', handleAnchorOpen, false);
+    document.addEventListener('contextmenu', handleAnchorContextMenu, false);
+  }
+  setTimeout(bindLinkHandlers, 0);
+  function safeOpen(url, target, features) {
+    if (url == null || !nativeOpen) return null;
+    var targetName = target == null || target === '' ? '_blank' : String(target);
+    var normalizedTarget = targetName.toLowerCase();
+    if (normalizedTarget === '_self' || normalizedTarget === '_parent' || normalizedTarget === '_top') {
+      return nativeOpen(String(url), targetName, features);
+    }
+    return openHardened(String(url), targetName, features);
+  }
+  try {
+    Object.defineProperty(window, 'open', {
+      value: safeOpen,
+      configurable: false,
+      writable: false
+    });
+  } catch (e) {
+    window.open = safeOpen;
+  }
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com/"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:wght@400;500;600;700&amp;display=swap">
+<style id="__base44_editor_theme__">
+:root {
+  --background: 38 27% 94%;
+  --foreground: 0 0% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 4%;
+  --primary: 21 42% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 39 17% 93%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 98%;
+  --input: 0 0% 98%;
+  --ring: 21 42% 55%;
+  --radius: 0.5rem;
+}
+.dark {
+  --background: 220 5% 11%;
+  --foreground: 0 0% 99%;
+  --card: 0 1% 14%;
+  --card-foreground: 0 0% 99%;
+  --popover: 0 1% 14%;
+  --popover-foreground: 0 0% 99%;
+  --primary: 21 42% 55%;
+  --primary-foreground: 0 0% 99%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 99%;
+  --muted: 0 0% 18%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 0 0% 18%;
+  --accent-foreground: 0 0% 99%;
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 99%;
+  --border: 0 0% 16%;
+  --input: 0 0% 16%;
+  --ring: 21 42% 55%;
+}
+*, *::before, *::after { box-sizing: border-box; }
+/* shadcn's base layer: default every element's border-color to the theme
+   token. Without this, Tailwind's bare `border` utility only sets width and
+   the color falls back to currentColor (near-black text) — so the model's
+   `border` cards render heavy/dark and the `--border` value is ignored.
+   Explicit `border-{color}` utilities and inline styles still override. */
+*, *::before, *::after { border-color: hsl(var(--border)); }
+html, body {
+  margin: 0 !important;
+  padding: 0;
+  overflow: hidden !important;
+  /* Inline card: transparent, so the real chat surface (a gradient, not the
+     single flat `--background` stop) shows straight through and the artifact
+     reads as inline chat content in both themes. Standalone saved file: opaque
+     `--background` so it stays readable on its own page. `--card` stays
+     elevated for emphasis blocks (stat tiles, panels) so hierarchy reads. */
+  background: transparent !important;
+  color: hsl(var(--foreground));
+  font-family: 'WixMadeforText', 'Wix Madefor Text', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+/* 8px (vs 16px) — minimal breathing room from the iframe edge so
+   tightly-composed dashboards don't ship a fat empty halo at the top
+   before their first element. LLMs add their own inner spacing. */
+body { padding: 8px; }
+code, kbd, pre, samp { font-family: 'WixMadeforMonospace', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+a { color: hsl(var(--primary)); }
+hr { border: 0; border-top: 1px solid hsl(var(--border)); }
+h1, h2, h3, h4, h5, h6 { font-weight: 600; color: hsl(var(--foreground)); }
+</style>
+<script id="__base44_tw_config__">
+window.tailwind = window.tailwind || {};
+window.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: { DEFAULT: 'hsl(var(--primary))', foreground: 'hsl(var(--primary-foreground))' },
+        secondary: { DEFAULT: 'hsl(var(--secondary))', foreground: 'hsl(var(--secondary-foreground))' },
+        destructive: { DEFAULT: 'hsl(var(--destructive))', foreground: 'hsl(var(--destructive-foreground))' },
+        muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
+        accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
+        popover: { DEFAULT: 'hsl(var(--popover))', foreground: 'hsl(var(--popover-foreground))' },
+        card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
+      },
+      // A bare `border` / `divide-*` (no color) falls back to Tailwind
+      // preflight's DEFAULT, which is a FIXED gray-200 (#e5e7eb) — subtle on the
+      // light card but near-white glare on the dark card. The `colors.border`
+      // map above only creates the `border-border` class; it does NOT set the
+      // uncolored default. Point the DEFAULT at the theme token so an uncolored
+      // border adapts to dark mode like the rest of the palette. (Explicit
+      // `border-primary` etc. still override.)
+      borderColor: { DEFAULT: 'hsl(var(--border))' },
+      divideColor: { DEFAULT: 'hsl(var(--border))' },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+      fontFamily: {
+        // Same two-name stack as `FONT_SANS_STACK` above. The
+        // sandboxed null-origin iframe lands on `Wix Madefor Text`
+        // (Google Fonts' name); `WixMadeforText` is here only for
+        // defense-in-depth in case the iframe ever runs same-origin.
+        sans: ['WixMadeforText', 'Wix Madefor Text', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: ['WixMadeforMonospace', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+      },
+    },
+  },
+};
+</script>
+<script src="https://cdn.tailwindcss.com/" id="__base44_tw_cdn__"></script>
+<script id="__base44_artifact_height_reporter__">
+(function () {
+  var raf = null;
+  function send() {
+    raf = null;
+    var h = Math.max(
+      document.body ? document.body.scrollHeight : 0,
+      document.documentElement ? document.documentElement.scrollHeight : 0
+    );
+    try { parent.postMessage({ type: 'ui-size-change', payload: { height: h } }, '*'); } catch (e) {}
+  }
+  function schedule() { if (raf == null) raf = requestAnimationFrame(send); }
+  if (document.readyState !== 'loading') schedule();
+  document.addEventListener('DOMContentLoaded', schedule);
+  window.addEventListener('load', schedule);
+  if (typeof ResizeObserver !== 'undefined') {
+    var ro = new ResizeObserver(schedule);
+    function attach() { if (document.body) ro.observe(document.body); }
+    if (document.body) attach(); else document.addEventListener('DOMContentLoaded', attach);
+  }
+})();
+</script><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style></head><body>
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifest Carousel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  .carousel-header {
+    color: #888;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .slides-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .slide {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  /* === DARK BACKGROUND === */
+  .slide-bg-dark {
+    background: #0e0e0e;
+    border: 1px solid #1e1e1e;
+  }
+
+  /* === SUBTLE TEXTURE OVERLAY === */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(180,145,80,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide-inner {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 52px 48px;
+  }
+
+  /* === GOLD ACCENT LINE === */
+  .accent-line {
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, #b8945a, #d4aa6e);
+    margin-bottom: 32px;
+  }
+
+  /* === LOGO WATERMARK === */
+  .logo-mark {
+    position: absolute;
+    bottom: 36px;
+    right: 40px;
+    opacity: 0.55;
+    z-index: 2;
+  }
+
+  .logo-mark img {
+    width: 52px;
+    height: auto;
+    display: block;
+  }
+
+  /* === SLIDE NUMBER === */
+  .slide-num {
+    position: absolute;
+    top: 36px;
+    right: 44px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: #3a3a3a;
+    z-index: 2;
+  }
+
+  /* === TYPOGRAPHY === */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #b8945a;
+    margin-bottom: 24px;
+  }
+
+  .headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(32px, 7vw, 44px);
+    line-height: 1.12;
+    color: #f0ece4;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+  }
+
+  .headline em {
+    font-style: italic;
+    color: #d4aa6e;
+  }
+
+  .headline strong {
+    font-weight: 500;
+    color: #f5f0e8;
+  }
+
+  .body-copy {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(12px, 2.2vw, 14px);
+    font-weight: 300;
+    line-height: 1.75;
+    color: #7a7a7a;
+    margin-top: 28px;
+    max-width: 360px;
+  }
+
+  .body-copy strong {
+    color: #aaa;
+    font-weight: 400;
+  }
+
+  .statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(16px, 3.2vw, 20px);
+    line-height: 1.6;
+    color: #8a8a8a;
+    margin-top: 28px;
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+
+  .divider-gold {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, #b8945a22, #b8945a55, #b8945a22);
+    margin: 28px 0;
+  }
+
+  /* === SLIDE 1 — HOOK === */
+  .s1 .headline {
+    font-size: clamp(36px, 8vw, 52px);
+  }
+
+  /* === SLIDE 4 — MANIFEST REVEAL === */
+  .tag-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(15px, 3vw, 19px);
+    font-weight: 400;
+    line-height: 1.5;
+    color: #c8a870;
+    font-style: italic;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid #222;
+  }
+
+  /* === SLIDE 5 — WHAT'S COMING === */
+  .coming-list {
+    list-style: none;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .coming-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(11px, 2vw, 13px);
+    font-weight: 300;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    letter-spacing: 0.04em;
+  }
+
+  .coming-list li::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background: #b8945a;
+    flex-shrink: 0;
+  }
+
+  /* === SLIDE 6 — CLOSER === */
+  .close-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(28px, 6vw, 40px);
+    line-height: 1.15;
+    color: #f0ece4;
+  }
+
+  .close-headline em {
+    font-style: italic;
+    color: #d4aa6e;
+  }
+
+  .cta-block {
+    margin-top: auto;
+    padding-top: 32px;
+  }
+
+  .cta-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b8945a;
+  }
+
+  .cta-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(13px, 2.5vw, 16px);
+    font-weight: 300;
+    color: #555;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* === LOGO REVEAL SLIDE === */
+  .slide-logo-reveal {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+  }
+
+  .logo-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    gap: 0;
+  }
+
+  .logo-center img {
+    width: 180px;
+    height: auto;
+  }
+
+  .logo-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: #666;
+    text-transform: uppercase;
+    margin-top: 28px;
+    font-style: italic;
+  }
+
+  /* === SLIDE LABEL AT BOTTOM === */
+  .slide-label {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  /* === RADIAL GLOW for reveal slide === */
+  .glow-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(180,145,80,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === CORNER MARKS === */
+  .corner-tl, .corner-br {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    z-index: 3;
+  }
+  .corner-tl {
+    top: 20px; left: 24px;
+    border-top: 1px solid #2a2a2a;
+    border-left: 1px solid #2a2a2a;
+  }
+  .corner-br {
+    bottom: 20px; right: 24px;
+    border-bottom: 1px solid #2a2a2a;
+    border-right: 1px solid #2a2a2a;
+  }
+</style>
+
+
+
+<div class="carousel-header">Manifest — LinkedIn Launch Carousel · 6 Slides</div>
+
+<div class="slides-container">
+
+  <!-- ===================== SLIDE 1 — HOOK ===================== -->
+  <div class="slide slide-bg-dark s1">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="slide-num">01 / 06</div>
+    <div class="slide-inner">
+      <div class="eyebrow">The Problem</div>
+      <div class="accent-line"></div>
+      <h2 class="headline">
+        Your business<br>
+        is better than<br>
+        it <em>looks.</em>
+      </h2>
+      <p class="statement">
+        That gap is costing you<br>more than you realize.
+      </p>
+    </div>
+    <div class="logo-mark">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest">
+    </div>
+  </div>
+  <div class="slide-label">Slide 1 — Hook</div>
+
+  <!-- ===================== SLIDE 2 — EXPAND ===================== -->
+  <div class="slide slide-bg-dark">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="slide-num">02 / 06</div>
+    <div class="slide-inner">
+      <div class="eyebrow">First Impressions</div>
+      <div class="accent-line"></div>
+      <h2 class="headline">
+        People decide<br>
+        before they<br>
+        ever walk in.
+      </h2>
+      <p class="body-copy">
+        Before the handshake.<br>
+        Before the call.<br>
+        Before the review.<br><br>
+        <strong>They search. They scroll. They judge.</strong><br><br>
+        In seconds, an opinion is formed —<br>
+        and most businesses never know<br>
+        what that opinion is.
+      </p>
+    </div>
+    <div class="logo-mark">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest">
+    </div>
+  </div>
+  <div class="slide-label">Slide 2 — Expand the Problem</div>
+
+  <!-- ===================== SLIDE 3 — INSIGHT ===================== -->
+  <div class="slide slide-bg-dark">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="slide-num">03 / 06</div>
+    <div class="slide-inner">
+      <div class="eyebrow">The Real Issue</div>
+      <div class="accent-line"></div>
+      <h2 class="headline">
+        It is rarely<br>
+        a <em>quality</em><br>
+        problem.
+      </h2>
+      <div class="divider-gold"></div>
+      <p class="body-copy">
+        Most businesses do excellent work.<br><br>
+        The problem is a <strong>perception gap.</strong><br><br>
+        What you deliver and<br>
+        what people see online<br>
+        are two different things.<br><br>
+        That distance costs trust.<br>
+        Trust costs customers.
+      </p>
+    </div>
+    <div class="logo-mark">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest">
+    </div>
+  </div>
+  <div class="slide-label">Slide 3 — The Deeper Insight</div>
+
+  <!-- ===================== SLIDE 4 — MANIFEST REVEAL ===================== -->
+  <div class="slide slide-bg-dark">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="slide-num">04 / 06</div>
+    <div class="slide-inner">
+      <div class="eyebrow">Closing the Gap</div>
+      <div class="accent-line"></div>
+      <h2 class="headline">
+        You know<br>
+        your business.<br>
+        <strong>They don't.</strong>
+      </h2>
+      <div class="tag-line">
+        I close that gap.<br>
+        Reputation into recognition.
+      </div>
+      <p class="body-copy" style="margin-top: 20px;">
+        That is what <strong>Manifest</strong> does.<br>
+        Brand identity. Digital presence.<br>
+        Built to reflect the real quality<br>
+        of the business behind it.
+      </p>
+    </div>
+    <div class="logo-mark">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest">
+    </div>
+  </div>
+  <div class="slide-label">Slide 4 — Manifest Introduction</div>
+
+  <!-- ===================== SLIDE 5 — WHAT'S COMING ===================== -->
+  <div class="slide slide-bg-dark">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="slide-num">05 / 06</div>
+    <div class="slide-inner">
+      <div class="eyebrow">This Page</div>
+      <div class="accent-line"></div>
+      <h2 class="headline" style="font-size: clamp(26px, 5.5vw, 38px);">
+        What you will<br>
+        find here.
+      </h2>
+      <ul class="coming-list">
+        <li>Brand audits &amp; first impression reviews</li>
+        <li>Website breakdowns &amp; before/afters</li>
+        <li>Design psychology &amp; visual strategy</li>
+        <li>Frontend &amp; engineering insights</li>
+        <li>Business identity observations</li>
+        <li>Real transformations, documented</li>
+      </ul>
+    </div>
+    <div class="logo-mark">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest">
+    </div>
+  </div>
+  <div class="slide-label">Slide 5 — Set Expectations</div>
+
+  <!-- ===================== SLIDE 6 — CLOSER ===================== -->
+  <div class="slide slide-bg-dark">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="slide-num">06 / 06</div>
+    <div class="slide-inner">
+      <div class="eyebrow">The Mission</div>
+      <div class="accent-line"></div>
+      <h2 class="close-headline">
+        Every business<br>
+        deserves a presence<br>
+        as <em>strong</em> as<br>
+        the work it does.
+      </h2>
+      <div class="cta-block">
+        <div class="cta-line">Know a business that deserves better?</div>
+        <div class="cta-sub">Tag them. Let's Manifest it.</div>
+      </div>
+    </div>
+    <div class="logo-mark" style="opacity: 0.7;">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest">
+    </div>
+  </div>
+  <div class="slide-label">Slide 6 — Conviction Close</div>
+
+  <!-- ===================== BONUS — LOGO REVEAL / SIGN-OFF ===================== -->
+  <div class="slide slide-logo-reveal glow-bg">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="logo-center">
+      <img src="https://media.base44.com/images/public/69e41265017790d72143cf6f/c0a6306aa_manifestlogo1.png" alt="Manifest Logo">
+      <div class="logo-tagline">Reputation into Recognition</div>
+    </div>
+  </div>
+  <div class="slide-label">Bonus — Logo Reveal / Sign-Off Slide</div>
+
+</div>
+
+
+
+<script id="__base44_dark_class_post__">document.documentElement.classList.remove('dark');</script></body></html>
