@@ -10,8 +10,12 @@ export function IdentityGap() {
       data-gap-section
     >
       <div className="section__intro">
-        <span className="section__index" data-reveal="index">01</span>
-        <h2 id="gap-title" data-reveal="headline">{identityGap.title}</h2>
+        <span className="section__index" data-reveal="index">
+          01
+        </span>
+        <h2 id="gap-title" data-reveal="headline">
+          {identityGap.title}
+        </h2>
         <p data-reveal="copy">{identityGap.intro}</p>
       </div>
 
@@ -29,18 +33,23 @@ export function IdentityGap() {
         <div className="gap-story">
           <div className="gap-pivot" data-gap-pivot>
             <article className="gap-pivot__card">
-              <span>what you are</span>
-              <strong>Capable. Valuable. Already trusted by people who know you.</strong>
+              <span>your reality</span>
+              <strong>
+                You do good work. Your reputation exists. Your business has real
+                value.
+              </strong>
             </article>
             <article className="gap-pivot__card">
-              <span>what they see first</span>
-              <strong>A scattered signal asking them to connect the dots themselves.</strong>
+              <span>their first impression</span>
+              <strong>
+                An online presence that forces people to guess instead of KNOW.
+              </strong>
             </article>
           </div>
 
           <div className="gap-choice" data-reveal="cta">
             <a className="button button--primary" href="#contact">
-              Get Your Identity Gap Score
+              Get Your Identity Gap Audit™
             </a>
             <a className="story-link" href="#method">
               Keep scrolling to see the method

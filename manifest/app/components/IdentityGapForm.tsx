@@ -3,6 +3,7 @@
 import emailjs from "@emailjs/browser";
 import { useState } from "react";
 import { emailConfig, intakeContent } from "../content/contact";
+import { offers } from "../content/offers";
 import { siteContent } from "../content/site";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
@@ -12,16 +13,35 @@ const initialValues = {
   email: "",
   business: "",
   website: "",
+  service: "",
   goal: "",
   concern: "",
 };
 
+const serviceOptions = offers.map((offer) => offer.title);
+
+function getInitialValues() {
+  if (typeof window === "undefined") {
+    return initialValues;
+  }
+
+  const service = new URLSearchParams(window.location.search).get("service");
+
+  if (!service || !serviceOptions.includes(service)) {
+    return initialValues;
+  }
+
+  return { ...initialValues, service };
+}
+
 export function IdentityGapForm() {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(getInitialValues);
   const [status, setStatus] = useState<FormStatus>("idle");
 
   function handleChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) {
     const { name, value } = event.target;
     setValues((current) => ({ ...current, [name]: value }));
@@ -31,7 +51,7 @@ export function IdentityGapForm() {
     event.preventDefault();
 
     const userMessage = [
-      "Selected offer: Identity Gap Audit",
+      `Selected offer: ${values.service || "Identity Gap Audit"}`,
       "",
       `Business: ${values.business}`,
       `Website/social: ${values.website}`,
@@ -63,7 +83,12 @@ export function IdentityGapForm() {
   }
 
   return (
-    <form className="identity-form" onSubmit={handleSubmit}>
+    <form
+      className="identity-form"
+      id="identity-gap-form"
+      onSubmit={handleSubmit}
+      aria-label="Identity Gap inquiry form"
+    >
       <div className="identity-form__grid">
         <label>
           {intakeContent.fields.name}
@@ -112,6 +137,25 @@ export function IdentityGapForm() {
             placeholder="Site, Instagram, Google listing, etc."
           />
         </label>
+        <label className="identity-form__field--wide">
+          {intakeContent.fields.service}
+          <select
+            id="service"
+            name="service"
+            value={values.service}
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>
+              Select a service
+            </option>
+            {serviceOptions.map((service) => (
+              <option key={service} value={service}>
+                {service}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <label>
@@ -143,10 +187,17 @@ export function IdentityGapForm() {
       <p className="identity-form__helper">{intakeContent.helper}</p>
 
       <div className="identity-form__actions">
-        <button className="button button--primary" type="submit" disabled={status === "sending"}>
+        <button
+          className="button button--primary"
+          type="submit"
+          disabled={status === "sending"}
+        >
           {status === "sending" ? "Sending..." : "Send audit request"}
         </button>
-        <a className="button button--secondary" href={`mailto:${siteContent.email}`}>
+        <a
+          className="button button--secondary"
+          href={`mailto:${siteContent.email}`}
+        >
           Email directly
         </a>
       </div>
@@ -159,7 +210,8 @@ export function IdentityGapForm() {
       {status === "error" && (
         <p className="identity-form__feedback identity-form__feedback--error">
           The form did not send. Use{" "}
-          <a href={`mailto:${siteContent.email}`}>{siteContent.email}</a> instead.
+          <a href={`mailto:${siteContent.email}`}>{siteContent.email}</a>{" "}
+          instead.
         </p>
       )}
     </form>

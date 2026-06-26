@@ -7,18 +7,19 @@ export const emailConfig = {
 };
 
 export const intakeContent = {
-  title: "Get your Identity Gap Score",
+  title: "Get your Identity Gap Audit™",
   intro:
-    "This is a first-impression audit request, not a sales ambush. Send what exists now and what you want the business to become.",
+    "Most businesses don't have a value problem. They have a perception problem. Send what exists today, and I'll show you where first impressions, trust, and clarity begin to drift apart.",
   helper:
-    "Include the current website, social links, the business goal, and what feels unclear. If the form acts up, email directly.",
+    "Include your website, social profiles, Google Business listing, or anything a customer would realistically see first. The more complete the picture, the more useful the audit.",
   directEmailHref: `mailto:${siteContent.email}`,
   fields: {
-    name: "Name",
-    email: "Email",
+    name: "Your name",
+    email: "Email address",
     business: "Business name",
-    website: "Website or social link",
-    goal: "What should people understand faster?",
-    concern: "Where do you think trust is leaking right now?",
+    website: "Current website or main online presence",
+    service: "What are you interested in?",
+    goal: "What should people understand immediately?",
+    concern: "Where does the business feel unclear online?",
   },
 };

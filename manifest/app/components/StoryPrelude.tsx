@@ -1,21 +1,21 @@
 const storyBeats = [
   {
-    label: "01 / before the name",
-    line: "The work is already real.",
+    label: "01 / first impression",
+    line: "They meet the business before they meet you.",
     detail:
-      "The value exists before the website explains it, before the logo earns trust, before the first click decides who looks serious.",
+      "Before the conversation, before the quote, before the handshake, your public presence is already making the introduction.",
   },
   {
-    label: "02 / the leak",
-    line: "But the signal is scattered.",
+    label: "02 / the cost",
+    line: "If the signal feels unclear, trust slows down.",
     detail:
-      "A good business can look smaller, quieter, or less ready than it actually is when the public presence does not hold together.",
+      "Good work can still look unfinished when the website, socials, offer, and proof all tell slightly different stories.",
   },
   {
-    label: "03 / the decision",
-    line: "Perception makes the first move.",
+    label: "03 / the turn",
+    line: "Clarity changes what people believe is possible.",
     detail:
-      "People decide whether to trust, call, buy, or keep scrolling before they understand the whole story.",
+      "When the identity holds together, people understand faster, trust sooner, and move with more confidence.",
   },
 ];
 
@@ -33,7 +33,11 @@ export function StoryPrelude() {
 
         <div className="story-prelude__beats">
           {storyBeats.map((beat) => (
-            <article className="story-prelude__beat" key={beat.line} data-prelude-beat>
+            <article
+              className="story-prelude__beat"
+              key={beat.line}
+              data-prelude-beat
+            >
               <span>{beat.label}</span>
               <h2>{beat.line}</h2>
               <p>{beat.detail}</p>

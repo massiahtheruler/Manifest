@@ -1,35 +1,35 @@
 export const heroContent = {
   headline: "You know what your business is. They don't.",
   subhead:
-    "Manifest closes the gap between identity, presence, and perception so your value is easier to recognize, trust, and buy from.",
-  primaryCta: "Get Your Identity Gap Score",
+    "You already built the business. Now build the version people actually see.",
+  primaryCta: "Get Your Identity Gap Audit™",
   secondaryCta: "See The Method",
-  signature: "From idea to identity.",
+  signature: "From Idea to Identity.",
 };
 
 export const identityGap = {
   title: "The Identity Gap",
   intro:
-    "The work can be good, the service can be real, and the reputation can already exist. If the presence is unclear, people hesitate before they ever talk to you.",
+    "The quality of your business is only half the story. The other half is what people believe in the few seconds before they decide to stay, leave, call, or keep scrolling.",
   points: [
     {
       title: "You look smaller than you are.",
-      body: "The business has earned more trust than the website, socials, and first impression are showing.",
+      body: "Your experience, reputation, and capability have outgrown the way the business presents itself online.",
     },
     {
       title: "Your brand feels inconsistent.",
-      body: "The offer, visuals, words, and customer path feel like separate pieces instead of one clear presence.",
+      body: "Your website, messaging, visuals, and customer experience feel disconnected instead of reinforcing one another.",
     },
     {
       title: "Your online presence does not match your reputation.",
-      body: "People hear good things, then land somewhere that does not confirm the same level of quality.",
+      body: "Word of mouth creates expectations your online presence never fully confirms.",
     },
   ],
 };
 
 export const audienceFit = {
-  title: "Built for businesses with real value and unclear signals.",
-  body: "Manifest starts local because local businesses feel the gap immediately: fewer calls, weaker first impressions, and competitors looking bigger than they are. The same system works for founders, service brands, and existing businesses that need the outside to finally match the inside.",
+  title: "For businesses that have already earned the reputation.",
+  body: "Manifest is built for businesses that know they're good at what they do but suspect their first impression is holding them back. Local companies feel it first, but the problem exists anywhere perception lags behind reality.",
   groups: [
     "Local service businesses",
     "Restaurants and hospitality",
@@ -41,15 +41,16 @@ export const audienceFit = {
 };
 
 export const aboutManifest = {
-  title: "Manifest is not just a website offer.",
-  body: "The product is clarity. I help businesses organize what they already are into a presence people can understand fast: identity, message, visual system, site, launch assets, and the next practical move.",
+  title: "This isn't web design. It's perception design.",
+  body: "A website is only one expression of a business. Manifest aligns your positioning, messaging, visual identity, digital presence, and customer journey so every interaction reinforces the same story.",
   proof:
-    "The work sits between brand architecture, frontend execution, and business instinct. Strategy first, interface second, launch path always visible.",
+    "The work combines brand strategy, frontend engineering, marketing instinct, and execution into one system designed to earn trust faster.",
 };
 
 export const finalCta = {
-  title: "Find the gap before it keeps costing you.",
-  body: "Send the current business, site, socials, and goal. I will look at the first impression like a customer would and show where trust is leaking.",
-  button: "Get Your Identity Gap Score",
+  title:
+    "Your business already knows what it is. Make sure everyone else does too.",
+  body: "Submit your business, website, or social presence and receive a practical first-impression audit showing where clarity, trust, and perception begin to break down.",
+  button: "Get Your Identity Gap Audit™",
   stamp: "MANIFESTED",
 };

@@ -132,7 +132,7 @@ export function HeroReveal() {
       </div>
 
       <div className="hero-section__next" aria-hidden="true">
-        <span>Scroll to reveal the gap</span>
+        <span>Scroll to close the gap</span>
         <i />
         <b />
       </div>

@@ -25,7 +25,7 @@ export function SiteHeader() {
       </nav>
 
       <a className="site-header__cta" href="#contact">
-        Identity Gap Score
+        Identity Gap Audit™
       </a>
     </header>
   );

@@ -808,14 +808,15 @@ textarea {
 .story-prelude__beats {
   position: relative;
   z-index: 2;
-  max-width: 780px;
+  width: min(74vw, 940px);
+  max-width: 940px;
   padding-left: clamp(0rem, 6vw, 5rem);
 }
 
 .story-prelude__beat {
   position: absolute;
-  inset: 50% auto auto 0;
-  max-width: 760px;
+  inset: 46% auto auto 0;
+  max-width: 900px;
   transform: translateY(-50%);
 }
 
@@ -836,13 +837,14 @@ textarea {
 }
 
 .story-prelude__beat h2 {
-  max-width: 720px;
+  max-width: min(900px, 74vw);
   margin: 0.9rem 0 1rem;
   color: var(--cream);
   font-family: var(--font-cinzel), Georgia, serif;
-  font-size: clamp(3rem, 8vw, 8.4rem);
+  font-size: clamp(3rem, 7vw, 7.3rem);
   font-weight: 600;
   line-height: 0.9;
+  text-wrap: balance;
 }
 
 .story-prelude__beat p {
@@ -1489,12 +1491,25 @@ textarea {
 }
 
 .offer-card {
+  min-height: 240px;
+  padding: 0;
+}
+
+.offer-card__link {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(260px, 0.55fr);
   align-items: end;
-  min-height: 240px;
+  min-height: inherit;
   gap: clamp(1.5rem, 5vw, 4rem);
   padding: clamp(1.4rem, 4vw, 2.4rem);
+  color: inherit;
+}
+
+.offer-card__meta {
+  display: grid;
+  gap: 1rem;
 }
 
 .offer-card__best {
@@ -1508,6 +1523,31 @@ textarea {
   color: var(--cream);
   font-size: 0.88rem;
   line-height: 1.55;
+}
+
+.offer-card__cta {
+  display: inline-flex;
+  width: fit-content;
+  border-bottom: 1px solid rgba(242, 216, 159, 0.52);
+  color: var(--gold-bright);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    text-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.offer-card:hover .offer-card__cta,
+.offer-card:focus-within .offer-card__cta {
+  border-color: var(--gold-bright);
+  color: var(--cream);
+  text-shadow: 0 0 20px rgba(213, 164, 90, 0.38);
+  transform: translateX(4px);
 }
 
 .audience-panel {
@@ -1682,7 +1722,8 @@ textarea {
 }
 
 .identity-form input,
-.identity-form textarea {
+.identity-form textarea,
+.identity-form select {
   width: 100%;
   border: 0;
   border-bottom: 1px solid rgba(245, 238, 223, 0.22);
@@ -1707,13 +1748,24 @@ textarea {
     transform 180ms ease;
 }
 
+.identity-form select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.identity-form select option {
+  background: #080806;
+  color: var(--cream);
+}
+
 .identity-form textarea {
   min-height: 7.2rem;
   resize: vertical;
 }
 
 .identity-form input:hover,
-.identity-form textarea:hover {
+.identity-form textarea:hover,
+.identity-form select:hover {
   border-bottom-color: rgba(242, 216, 159, 0.42);
   background:
     linear-gradient(180deg, rgba(245, 238, 223, 0.06), rgba(0, 0, 0, 0.12)),
@@ -1722,8 +1774,10 @@ textarea {
 
 .identity-form input:focus,
 .identity-form textarea:focus,
+.identity-form select:focus,
 .identity-form input:focus-visible,
-.identity-form textarea:focus-visible {
+.identity-form textarea:focus-visible,
+.identity-form select:focus-visible {
   border-bottom-color: var(--gold-bright);
   background:
     linear-gradient(
@@ -1742,6 +1796,10 @@ textarea {
 .identity-form input::placeholder,
 .identity-form textarea::placeholder {
   color: rgba(245, 238, 223, 0.34);
+}
+
+.identity-form__field--wide {
+  grid-column: 1 / -1;
 }
 
 .identity-form__helper {
@@ -1795,6 +1853,7 @@ textarea {
   .gap-layout,
   .gap-pivot,
   .offer-card,
+  .offer-card__link,
   .proof-card,
   .section__intro--split,
   .section--about,
@@ -1929,11 +1988,13 @@ textarea {
   }
 
   .story-prelude__beats {
+    width: min(100%, 940px);
     padding-left: 0;
   }
 
   .story-prelude__beat h2 {
-    font-size: clamp(3.1rem, 17vw, 5rem);
+    max-width: 100%;
+    font-size: clamp(2.75rem, 14vw, 4.6rem);
   }
 
   .story-prelude__signal {

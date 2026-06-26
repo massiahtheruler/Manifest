@@ -11,12 +11,18 @@ export function ManifestMethod() {
     >
       <div className="section__intro section__intro--split">
         <div>
-          <span className="section__index" data-reveal="index">02</span>
-          <h2 id="method-title" data-reveal="headline">The Manifest Method</h2>
+          <span className="section__index" data-reveal="index">
+            02
+          </span>
+          <h2 id="method-title" data-reveal="headline">
+            The Manifest Method
+          </h2>
         </div>
         <p data-reveal="copy">
-          A practical framework for moving a business from scattered perception
-          to clear public identity.
+          You already know what the business is supposed to feel like.<br></br>{" "}
+          Manifest makes them see it too.<br></br>
+          <br></br>
+          <strong> Ideas to Identity & Attention into Action.</strong>
         </p>
       </div>
 

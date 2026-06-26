@@ -24,20 +24,41 @@ export const methodSteps = [
 export const offers = [
   {
     title: "Identity Gap Audit",
-    bestFor: "For businesses that need clarity before rebuilding.",
-    body: "A focused first-impression review of your site, socials, message, and trust signals. You leave with the real gaps named and the next move sorted.",
-    outcome: "Clear diagnosis, priority fixes, and direction.",
+    bestFor:
+      "For businesses that know something feels off but can't yet explain why.",
+    body: "A complete first-impression review of your website, branding, messaging, social presence, search results, and customer journey. You'll leave knowing exactly what's creating hesitation and what to fix first.",
+    outcome: "Starting at $250+",
   },
   {
-    title: "Brand Presence Buildout",
-    bestFor: "For businesses ready to turn clarity into a complete presence.",
-    body: "Identity, site, copy direction, visual system, launch assets, and the digital structure needed to look as real as the business already is.",
-    outcome: "A cohesive identity and web presence built to launch.",
+    title: "Presence Pack",
+    bestFor:
+      "For businesses that need stronger consistency without a full rebuild.",
+    body: "Logo refinement, visual cleanup, social assets, messaging improvements, templates, and practical brand polish that immediately elevates how the business feels.",
+    outcome: "Starting at $550+",
+  },
+  {
+    title: "Rebuild + Revitalize",
+    bestFor:
+      "For businesses whose online presence no longer matches the quality of their work.",
+    body: "A complete website and identity transformation focused on clarity, trust, positioning, messaging, and conversion. Not a redesign for the sake of aesthetics. A rebuild with purpose.",
+    outcome: "Starting at $1,500+",
+  },
+  {
+    title: "New Growth",
+    bestFor: "For new businesses, launches, products, and ambitious ideas.",
+    body: "Build the business correctly from the beginning with identity, website, launch assets, messaging, and a cohesive digital foundation instead of fixing it later.",
+    outcome: "Starting at $800+",
   },
   {
     title: "Digital Presence Management",
-    bestFor: "For businesses that need ongoing updates and strategy.",
-    body: "Site improvements, content updates, offer refinement, campaign support, and strategic cleanup so the presence keeps growing instead of going stale.",
-    outcome: "Consistent evolution without starting over every time.",
+    bestFor: "For businesses that need a long-term strategic partner.",
+    body: "Ongoing improvements, content updates, campaign support, new pages, optimization, and continuous refinement so your presence evolves with your business.",
+    outcome: "Custom monthly engagement",
+  },
+  {
+    title: "Consultation",
+    bestFor: "For founders who need clarity before making the next move.",
+    body: "Strategy sessions covering positioning, frontend direction, customer experience, branding decisions, launches, or digital growth with actionable recommendations.",
+    outcome: "Starting at $125",
   },
 ];

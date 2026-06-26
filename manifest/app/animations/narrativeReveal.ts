@@ -281,6 +281,7 @@ export function animateNarrativeReveal(
   }
 
   scope.querySelectorAll("[data-story-section]").forEach((section) => {
+    const offerCards = Array.from(section.querySelectorAll("[data-offer-card]"));
     const orderedReveals = [
       section.querySelector('[data-reveal="index"]'),
       section.querySelector('[data-reveal="headline"]'),
@@ -304,12 +305,37 @@ export function animateNarrativeReveal(
     });
 
     gsapInstance.set(orderedReveals, revealVars());
+    gsapInstance.set(offerCards, {
+      autoAlpha: 0,
+      y: 42,
+      scale: 0.98,
+      filter: "blur(12px)",
+      clipPath: "inset(10% 0% 10% 0%)",
+    });
+
     timeline.to(orderedReveals, {
       ...clearVars(),
       stagger: 0.16,
       duration: 0.5,
       ease: "power2.out",
     });
+
+    if (offerCards.length) {
+      timeline.to(
+        offerCards,
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          clipPath: "inset(0% 0% 0% 0%)",
+          stagger: 0.12,
+          duration: 0.42,
+          ease: "power2.out",
+        },
+        ">-0.18",
+      );
+    }
   });
 
   const methodSection = scope.querySelector("[data-method-section]");
@@ -527,7 +553,7 @@ export function animateNarrativeReveal(
     );
   }
 
-  scope.querySelectorAll("[data-offer-card], [data-proof-card], .audience-list li").forEach(
+  scope.querySelectorAll("[data-proof-card], .audience-list li").forEach(
     (item) => {
       gsapInstance.fromTo(
         item,

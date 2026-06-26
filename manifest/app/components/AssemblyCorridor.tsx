@@ -8,7 +8,10 @@ const assemblyFragments = [
   { text: "voice", className: "assembly-fragment assembly-fragment--voice" },
   { text: "proof", className: "assembly-fragment assembly-fragment--proof" },
   { text: "signal", className: "assembly-fragment assembly-fragment--signal" },
-  { text: "presence", className: "assembly-fragment assembly-fragment--presence" },
+  {
+    text: "presence",
+    className: "assembly-fragment assembly-fragment--presence",
+  },
 ];
 
 export function AssemblyCorridor() {
@@ -19,7 +22,11 @@ export function AssemblyCorridor() {
       data-assembly-section
     >
       <div className="assembly-corridor__stage" data-assembly-stage>
-        <div className="assembly-corridor__idea" aria-hidden="true" data-assembly-idea>
+        <div
+          className="assembly-corridor__idea"
+          aria-hidden="true"
+          data-assembly-idea
+        >
           {"idea".split("").map((letter) => (
             <span key={letter} data-assembly-idea-letter>
               {letter}
@@ -29,13 +36,21 @@ export function AssemblyCorridor() {
 
         <div className="assembly-corridor__field" aria-hidden="true">
           {assemblyFragments.map((fragment) => (
-            <span className={fragment.className} key={fragment.text} data-assembly-fragment>
+            <span
+              className={fragment.className}
+              key={fragment.text}
+              data-assembly-fragment
+            >
               {fragment.text}
             </span>
           ))}
         </div>
 
-        <div className="assembly-corridor__identity" aria-hidden="true" data-assembly-identity>
+        <div
+          className="assembly-corridor__identity"
+          aria-hidden="true"
+          data-assembly-identity
+        >
           identity
         </div>
 
@@ -56,10 +71,14 @@ export function AssemblyCorridor() {
 
         <div className="assembly-corridor__copy" data-assembly-copy>
           <span>fragments become form</span>
-          <h2 id="assembly-title">Your identity should feel undeniable before you explain it.</h2>
+          <h2 id="assembly-title">
+            The pieces are already there. They just need to move like one
+            identity.
+          </h2>
           <p>
-            That is the example. The page itself has to move from loose signal to
-            structured recognition.
+            Value, trust, voice, proof, presence. Alone, they are fragments.
+            Built into a system, they become something people recognize before
+            you have to explain it.
           </p>
         </div>
       </div>
