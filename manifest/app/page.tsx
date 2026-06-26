@@ -1,5 +1,6 @@
 import { AssemblyCorridor } from "./components/AssemblyCorridor";
 import { AudienceFit } from "./components/AudienceFit";
+import { BrandWatermark } from "./components/BrandWatermark";
 import { FinalCTA } from "./components/FinalCTA";
 import { FounderTrust } from "./components/FounderTrust";
 import { HeroReveal } from "./components/HeroReveal";
@@ -27,6 +28,7 @@ export default function Home() {
         <FounderTrust />
         <FinalCTA />
       </main>
+      <BrandWatermark />
     </ManifestMotion>
   );
 }

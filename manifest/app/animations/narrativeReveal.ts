@@ -315,88 +315,195 @@ export function animateNarrativeReveal(
   const methodSection = scope.querySelector("[data-method-section]");
   const methodTrack = scope.querySelector("[data-method-track]");
   const methodInner = scope.querySelector("[data-method-inner]");
-  const desktopMotion = window.matchMedia("(min-width: 981px)").matches;
 
-  if (methodSection && methodTrack && methodInner && desktopMotion) {
-    const cards = methodInner.querySelectorAll("[data-method-card]");
-    gsapInstance.set(cards, {
-      autoAlpha: 0.28,
-      y: 44,
-      scale: 0.94,
-      filter: "blur(10px)",
-    });
+  if (methodSection && methodTrack && methodInner) {
+    const cards = Array.from(methodInner.querySelectorAll("[data-method-card]"));
+    const methodMedia = gsapInstance.matchMedia();
+    const methodPinStart = () => (window.innerHeight < 760 ? "top 24%" : "top 18%");
 
-    const horizontalMethodTween = gsapInstance.to(methodInner, {
-      x: () =>
-        -Math.max(
-          0,
-          (methodInner as HTMLElement).scrollWidth -
-            (methodTrack as HTMLElement).clientWidth,
-        ),
-      ease: "none",
-      scrollTrigger: {
-        trigger: methodSection,
-        start: "top top",
-        end: () => `+=${(methodInner as HTMLElement).scrollWidth}`,
-        scrub: 0.8,
-        pin: true,
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
-      } satisfies ScrollTrigger.Vars,
-    });
+    methodMedia.add("(min-width: 981px)", () => {
+      gsapInstance.set([methodInner, ...cards], { clearProps: "all" });
+      gsapInstance.set(cards, {
+        autoAlpha: 0.28,
+        y: 44,
+        scale: 0.94,
+        filter: "blur(10px)",
+      });
 
-    cards.forEach((card, index) => {
-      gsapInstance.to(card, {
-        autoAlpha: 1,
-        y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        "--method-step-glow": index === 0 ? 0.42 : 0.28,
-        ease: "power2.out",
+      const horizontalMethodTween = gsapInstance.to(methodInner, {
+        x: () =>
+          -Math.max(
+            0,
+            (methodInner as HTMLElement).scrollWidth -
+              (methodTrack as HTMLElement).clientWidth,
+          ),
+        ease: "none",
         scrollTrigger: {
-          trigger: card,
-          containerAnimation: horizontalMethodTween,
-          start: "left 72%",
-          end: "center 45%",
-          scrub: true,
+          trigger: methodTrack,
+          start: methodPinStart,
+          end: () => `+=${(methodInner as HTMLElement).scrollWidth}`,
+          scrub: 0.8,
+          pin: methodTrack,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
         } satisfies ScrollTrigger.Vars,
       });
-    });
-  } else {
-    scope.querySelectorAll("[data-method-card]").forEach((card, index) => {
-      gsapInstance.fromTo(
-        card,
-        {
-          autoAlpha: 0,
-          y: 92,
-          scale: 0.96,
-          filter: "blur(18px)",
-          clipPath: "inset(18% 0% 18% 0%)",
-        },
-        {
+
+      cards.forEach((card, index) => {
+        gsapInstance.to(card, {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           filter: "blur(0px)",
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "power3.out",
+          "--method-step-glow": index === 0 ? 0.42 : 0.28,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: card,
-            start: "top 82%",
-            end: "top 48%",
-            scrub: 0.55,
+            containerAnimation: horizontalMethodTween,
+            start: "left 72%",
+            end: "center 45%",
+            scrub: true,
           } satisfies ScrollTrigger.Vars,
-        },
-      );
+        });
+      });
+    });
 
-      gsapInstance.to(card, {
-        "--method-step-glow": index === 0 ? 0.42 : 0.26,
+    methodMedia.add("(min-width: 561px) and (max-width: 980px)", () => {
+      gsapInstance.set([methodInner, ...cards], { clearProps: "all" });
+      gsapInstance.set(cards, {
+        autoAlpha: 0,
+        x: 130,
+        y: 34,
+        scale: 0.94,
+        filter: "blur(18px)",
+        clipPath: "inset(14% 0% 14% 0%)",
+        zIndex: 1,
+      });
+
+      gsapInstance.set(cards[0], {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        clipPath: "inset(0% 0% 0% 0%)",
+        zIndex: 2,
+        "--method-step-glow": 0.42,
+      });
+
+      const mobileMethodTimeline = gsapInstance.timeline({
         scrollTrigger: {
-          trigger: card,
-          start: "top 62%",
-          end: "bottom 42%",
-          scrub: true,
+          trigger: methodTrack,
+          start: methodPinStart,
+          end: () => `+=${Math.max(cards.length, 1) * window.innerHeight * 0.72}`,
+          scrub: 0.75,
+          pin: methodTrack,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
         } satisfies ScrollTrigger.Vars,
+      });
+
+      cards.forEach((card, index) => {
+        if (index === 0) {
+          mobileMethodTimeline.to(
+            card,
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              duration: 0.38,
+              ease: "power2.out",
+            },
+            0,
+          );
+          return;
+        }
+
+        const previousCard = cards[index - 1];
+        const start = index * 1.1;
+
+        mobileMethodTimeline
+          .to(
+            previousCard,
+            {
+              autoAlpha: 0,
+              x: -240,
+              y: -22,
+              scale: 0.9,
+              filter: "blur(18px)",
+              "--method-step-glow": 0,
+              duration: 0.28,
+              ease: "power2.inOut",
+            },
+            start,
+          )
+          .fromTo(
+            card,
+            {
+              autoAlpha: 0,
+              x: 220,
+              y: 26,
+              scale: 0.93,
+              filter: "blur(18px)",
+              clipPath: "inset(16% 0% 16% 0%)",
+              zIndex: index + 2,
+            },
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              clipPath: "inset(0% 0% 0% 0%)",
+              "--method-step-glow": index === 0 ? 0.42 : 0.28,
+              duration: 0.42,
+              ease: "power3.out",
+            },
+            start + 0.22,
+          );
+      });
+    });
+
+    methodMedia.add("(max-width: 560px)", () => {
+      gsapInstance.set([methodInner, ...cards], { clearProps: "all" });
+
+      cards.forEach((card, index) => {
+        gsapInstance.fromTo(
+          card,
+          {
+            autoAlpha: 0,
+            y: 92,
+            scale: 0.96,
+            filter: "blur(18px)",
+            clipPath: "inset(18% 0% 18% 0%)",
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 82%",
+              end: "top 48%",
+              scrub: 0.55,
+            } satisfies ScrollTrigger.Vars,
+          },
+        );
+
+        gsapInstance.to(card, {
+          "--method-step-glow": index === 0 ? 0.42 : 0.26,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 62%",
+            end: "bottom 42%",
+            scrub: true,
+          } satisfies ScrollTrigger.Vars,
+        });
       });
     });
   }

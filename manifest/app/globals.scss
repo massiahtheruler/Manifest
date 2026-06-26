@@ -28,6 +28,15 @@ html {
   background: var(--black);
 }
 
+html.lenis,
+html.lenis body {
+  scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-stopped {
+  overflow: clip;
+}
+
 [id] {
   scroll-margin-top: 6.5rem;
 }
@@ -80,6 +89,29 @@ body::after {
   content: "";
 }
 
+.brand-watermark {
+  position: fixed;
+  bottom: clamp(24px, 5vh, 56px);
+  left: clamp(24px, 4vw, 64px);
+  z-index: 0;
+  width: clamp(160px, 18vw, 320px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+  opacity: 0;
+  mix-blend-mode: screen;
+  will-change: transform, opacity, filter;
+}
+
+.brand-watermark__mark {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -117,6 +149,7 @@ textarea {
 }
 
 .site-header__brand {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -126,6 +159,17 @@ textarea {
   font-size: 0.82rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+  transition:
+    color 180ms ease,
+    filter 180ms ease,
+    transform 180ms ease;
+}
+
+.site-header__brand:hover,
+.site-header__brand:focus-visible {
+  color: var(--cream);
+  filter: drop-shadow(0 0 14px rgba(213, 164, 90, 0.24));
+  transform: translateY(-1px);
 }
 
 .site-header__mark {
@@ -146,15 +190,48 @@ textarea {
 
 .site-header__nav a,
 .site-header__cta {
+  position: relative;
   transition:
     color 180ms ease,
     border-color 180ms ease,
-    background 180ms ease;
+    background 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    transform 180ms ease;
+}
+
+.site-header__nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.45rem;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-bright),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(213, 164, 90, 0.42);
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.35);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
 }
 
 .site-header__nav a:hover,
 .site-header__nav a:focus-visible {
   color: var(--gold-bright);
+  filter: drop-shadow(0 0 10px rgba(213, 164, 90, 0.22));
+  transform: translateY(-1px);
+}
+
+.site-header__nav a:hover::after,
+.site-header__nav a:focus-visible::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .site-header__cta {
@@ -171,6 +248,10 @@ textarea {
 .site-header__cta:focus-visible {
   border-color: var(--gold-bright);
   background: rgba(213, 164, 90, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(242, 216, 159, 0.08),
+    0 0 26px rgba(213, 164, 90, 0.18);
+  transform: translateY(-1px) scale(1.015);
 }
 
 .hero-section {
@@ -304,27 +385,50 @@ textarea {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  will-change: transform;
   transition:
     transform 180ms ease,
     border-color 180ms ease,
-    background 180ms ease;
+    background 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
 }
 
 .button:hover,
 .button:focus-visible {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.015);
 }
 
 .button--primary {
   border: 1px solid rgba(242, 216, 159, 0.78);
   background: linear-gradient(135deg, #f2d89f, #b98239);
   color: #080806;
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.24),
+    0 0 0 rgba(213, 164, 90, 0);
+}
+
+.button--primary:hover,
+.button--primary:focus-visible {
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.34),
+    0 0 32px rgba(213, 164, 90, 0.28);
+  filter: saturate(1.06) brightness(1.04);
 }
 
 .button--secondary {
   border: 1px solid var(--line-strong);
   background: rgba(255, 255, 255, 0.03);
   color: var(--cream);
+}
+
+.button--secondary:hover,
+.button--secondary:focus-visible {
+  border-color: rgba(242, 216, 159, 0.7);
+  background: rgba(213, 164, 90, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 216, 159, 0.04),
+    0 0 28px rgba(213, 164, 90, 0.14);
 }
 
 .hero-section__brand-system {
@@ -1351,7 +1455,7 @@ textarea {
 .method-card {
   --method-step-glow: 0;
   width: min(72vw, 780px);
-  min-height: 48vh;
+  min-height: clamp(320px, 48vh, 560px);
   flex: 0 0 auto;
   border-color: rgba(245, 238, 223, 0.13);
   background:
@@ -1485,6 +1589,7 @@ textarea {
   width: 74px;
   height: 74px;
   border: 1px solid var(--line-strong);
+  border-radius: 100%;
   object-fit: cover;
   filter: saturate(0.92) contrast(1.04);
 }
@@ -1579,18 +1684,59 @@ textarea {
 .identity-form input,
 .identity-form textarea {
   width: 100%;
-  border: 1px solid rgba(245, 238, 223, 0.16);
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.34);
+  border: 0;
+  border-bottom: 1px solid rgba(245, 238, 223, 0.22);
+  border-radius: 10px 10px 10px 10px;
+  outline: 0;
+  background:
+    linear-gradient(180deg, rgba(245, 238, 223, 0.045), rgba(0, 0, 0, 0.1)),
+    rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 -1px 0 rgba(213, 164, 90, 0),
+    0 0 0 rgba(213, 164, 90, 0);
   color: var(--cream);
-  padding: 0.9rem;
+  padding: 0.95rem 1rem 0.85rem;
   font-size: 0.95rem;
   line-height: 1.45;
   text-transform: none;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .identity-form textarea {
+  min-height: 7.2rem;
   resize: vertical;
+}
+
+.identity-form input:hover,
+.identity-form textarea:hover {
+  border-bottom-color: rgba(242, 216, 159, 0.42);
+  background:
+    linear-gradient(180deg, rgba(245, 238, 223, 0.06), rgba(0, 0, 0, 0.12)),
+    rgba(0, 0, 0, 0.36);
+}
+
+.identity-form input:focus,
+.identity-form textarea:focus,
+.identity-form input:focus-visible,
+.identity-form textarea:focus-visible {
+  border-bottom-color: var(--gold-bright);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(245, 238, 223, 0.07),
+      rgba(213, 164, 90, 0.035)
+    ),
+    rgba(0, 0, 0, 0.42);
+  box-shadow:
+    inset 0 -2px 0 rgba(242, 216, 159, 0.96),
+    0 12px 34px rgba(0, 0, 0, 0.24),
+    0 0 30px rgba(213, 164, 90, 0.18);
+  transform: translateY(-1px);
 }
 
 .identity-form input::placeholder,
@@ -1678,12 +1824,80 @@ textarea {
     top: auto;
   }
 
+  .section--method {
+    overflow: visible;
+  }
+
+  .method-sequence {
+    overflow: visible;
+  }
+
+  .method-sequence__inner {
+    display: grid;
+    width: auto;
+    padding: 0 0 0 1.5rem;
+  }
+
+  .method-sequence__rail {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: auto;
+  }
+
+  .method-sequence__rail span {
+    background: linear-gradient(180deg, var(--gold-bright), var(--accent));
+  }
+
+  .method-card {
+    width: auto;
+    min-height: auto;
+  }
+
   .method-card:nth-child(odd) {
     margin-left: 0;
   }
 
   .proof-card dl {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 561px) and (max-width: 980px) {
+  .section--method {
+    padding-bottom: clamp(7rem, 16vw, 10rem);
+  }
+
+  .method-sequence {
+    min-height: clamp(440px, 72vh, 660px);
+  }
+
+  .method-sequence__inner {
+    position: relative;
+    display: block;
+    min-height: clamp(400px, 66vh, 610px);
+    padding: 0 0 0 clamp(1.4rem, 4vw, 2rem);
+  }
+
+  .method-card {
+    position: absolute;
+    inset: 0 0 0 clamp(1.4rem, 4vw, 2rem);
+    display: flex;
+    min-height: clamp(380px, 62vh, 580px);
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .method-card:first-child {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .method-card h3 {
+    font-size: clamp(3.8rem, 12vw, 7rem);
   }
 }
 
@@ -1799,33 +2013,6 @@ textarea {
     font-size: clamp(3.4rem, 18vw, 5.4rem);
   }
 
-  .method-sequence {
-    overflow: visible;
-  }
-
-  .method-sequence__inner {
-    display: grid;
-    width: auto;
-    padding: 0 0 0 1.4rem;
-  }
-
-  .method-sequence__rail {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 1px;
-    height: auto;
-  }
-
-  .method-sequence__rail span {
-    background: linear-gradient(180deg, var(--gold-bright), var(--accent));
-  }
-
-  .method-card {
-    width: auto;
-    min-height: auto;
-  }
-
   .method-card h3 {
     font-size: clamp(2.6rem, 15vw, 4.8rem);
   }
@@ -1849,6 +2036,28 @@ textarea {
 
   .button {
     width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .method-sequence {
+    min-height: auto;
+  }
+
+  .method-sequence__inner {
+    display: grid;
+    gap: 1rem;
+    min-height: auto;
+    padding: 0 0 0 1.4rem;
+  }
+
+  .method-card {
+    position: relative;
+    inset: auto;
+    display: block;
+    min-height: auto;
+    opacity: 1;
+    visibility: visible;
   }
 }
 
