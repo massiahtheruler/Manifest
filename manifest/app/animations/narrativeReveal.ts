@@ -79,20 +79,29 @@ export function animateNarrativeReveal(
 
   const assembly = scope.querySelector("[data-assembly-section]");
   const assemblyStage = scope.querySelector("[data-assembly-stage]");
+  const assemblyIdea = scope.querySelector("[data-assembly-idea]");
+  const assemblyIdeaLetters = scope.querySelectorAll("[data-assembly-idea-letter]");
   const assemblyFragments = scope.querySelectorAll("[data-assembly-fragment]");
+  const assemblyIdentity = scope.querySelector("[data-assembly-identity]");
   const assemblySystem = scope.querySelector("[data-assembly-system]");
   const assemblyCopy = scope.querySelector("[data-assembly-copy]");
   const assemblyLogo = scope.querySelector("[data-assembly-logo]");
 
   if (assembly && assemblyStage && assemblyFragments.length && assemblySystem) {
     const fragmentTargets = [
-      { x: -250, y: -155, rotate: -34 },
-      { x: 210, y: -132, rotate: 26 },
-      { x: -190, y: 138, rotate: 18 },
-      { x: 260, y: 124, rotate: -22 },
-      { x: -45, y: -210, rotate: 42 },
-      { x: 64, y: 208, rotate: -36 },
-      { x: 0, y: 0, rotate: 0 },
+      { x: -390, y: -245, rotate: -46 },
+      { x: 370, y: -228, rotate: 38 },
+      { x: -335, y: 230, rotate: 28 },
+      { x: 415, y: 205, rotate: -34 },
+      { x: -92, y: -325, rotate: 58 },
+      { x: 118, y: 315, rotate: -52 },
+      { x: 0, y: 0, rotate: -12 },
+    ];
+    const ideaBreak = [
+      { x: -360, y: -120, rotate: -42 },
+      { x: -118, y: 180, rotate: 28 },
+      { x: 118, y: -170, rotate: -24 },
+      { x: 342, y: 136, rotate: 46 },
     ];
 
     const assemblyTimeline = gsapInstance.timeline({
@@ -106,13 +115,32 @@ export function animateNarrativeReveal(
       } satisfies ScrollTrigger.Vars,
     });
 
+    gsapInstance.set(assemblyIdea, {
+      autoAlpha: 1,
+      scale: 1,
+      filter: "blur(0px)",
+    });
+    gsapInstance.set(assemblyIdeaLetters, {
+      display: "inline-block",
+      x: 0,
+      y: 0,
+      rotate: 0,
+      filter: "blur(0px)",
+    });
     gsapInstance.set(assemblyFragments, {
-      autoAlpha: 0.42,
-      x: (index) => fragmentTargets[index]?.x ?? 0,
-      y: (index) => fragmentTargets[index]?.y ?? 0,
-      rotate: (index) => fragmentTargets[index]?.rotate ?? 0,
-      filter: "blur(8px)",
-      scale: 0.92,
+      autoAlpha: 0,
+      x: (index) => (fragmentTargets[index]?.x ?? 0) * 1.35,
+      y: (index) => (fragmentTargets[index]?.y ?? 0) * 1.35,
+      rotate: (index) =>
+        (fragmentTargets[index]?.rotate ?? 0) + (index % 2 === 0 ? -80 : 80),
+      filter: "blur(18px)",
+      scale: 0.82,
+    });
+    gsapInstance.set(assemblyIdentity, {
+      autoAlpha: 0,
+      scale: 0.84,
+      letterSpacing: "0.42em",
+      filter: "blur(22px)",
     });
     gsapInstance.set(assemblySystem, {
       autoAlpha: 0,
@@ -127,27 +155,83 @@ export function animateNarrativeReveal(
     });
 
     assemblyTimeline
+      .to(assemblyIdeaLetters, {
+        x: (index) => ideaBreak[index]?.x ?? 0,
+        y: (index) => ideaBreak[index]?.y ?? 0,
+        rotate: (index) => ideaBreak[index]?.rotate ?? 0,
+        autoAlpha: 0,
+        filter: "blur(20px)",
+        stagger: 0.035,
+        duration: 0.44,
+        ease: "power3.inOut",
+      })
+      .to(
+        assemblyIdea,
+        {
+          autoAlpha: 0,
+          scale: 1.16,
+          filter: "blur(18px)",
+          duration: 0.25,
+          ease: "power2.in",
+        },
+        "<+0.18",
+      )
       .to(assemblyFragments, {
-        autoAlpha: 1,
-        x: (index) => (fragmentTargets[index]?.x ?? 0) * 1.16,
-        y: (index) => (fragmentTargets[index]?.y ?? 0) * 1.16,
+        autoAlpha: 0.82,
+        x: (index) => (fragmentTargets[index]?.x ?? 0) * 1.72,
+        y: (index) => (fragmentTargets[index]?.y ?? 0) * 1.72,
         rotate: (index) =>
-          (fragmentTargets[index]?.rotate ?? 0) + (index % 2 === 0 ? -70 : 70),
-        filter: "blur(0px)",
-        scale: 1,
+          (fragmentTargets[index]?.rotate ?? 0) + (index % 2 === 0 ? -118 : 118),
+        filter: "blur(8px)",
+        scale: 0.95,
         stagger: 0.045,
         duration: 0.42,
         ease: "power2.out",
+      }, "<+0.12")
+      .to(assemblyFragments, {
+        autoAlpha: 1,
+        x: (index) => fragmentTargets[index]?.x ?? 0,
+        y: (index) => fragmentTargets[index]?.y ?? 0,
+        rotate: (index) => fragmentTargets[index]?.rotate ?? 0,
+        filter: "blur(1px)",
+        scale: 1,
+        stagger: 0.035,
+        duration: 0.46,
+        ease: "power3.out",
       })
       .to(assemblyFragments, {
         x: 0,
         y: 0,
         rotate: 0,
-        scale: (index) => (index === 6 ? 1.1 : 0.78),
-        autoAlpha: (index) => (index === 6 ? 0.28 : 0.12),
-        duration: 0.5,
+        scale: (index) => (index === 6 ? 1.18 : 0.72),
+        autoAlpha: (index) => (index === 6 ? 0.22 : 0.1),
+        filter: "blur(7px)",
+        duration: 0.56,
         ease: "back.out(1.7)",
       })
+      .to(
+        assemblyIdentity,
+        {
+          autoAlpha: 1,
+          scale: 1,
+          letterSpacing: "0.08em",
+          filter: "blur(0px)",
+          duration: 0.5,
+          ease: "power3.out",
+        },
+        ">-0.34",
+      )
+      .to(
+        assemblyFragments,
+        {
+          autoAlpha: 0,
+          scale: 0.64,
+          filter: "blur(18px)",
+          duration: 0.34,
+          ease: "power2.inOut",
+        },
+        "<+0.16",
+      )
       .to(
         assemblySystem,
         {
@@ -161,6 +245,18 @@ export function animateNarrativeReveal(
         ">-0.18",
       )
       .to(
+        assemblyIdentity,
+        {
+          autoAlpha: 0.16,
+          x: -118,
+          scale: 1.12,
+          filter: "blur(10px)",
+          duration: 0.34,
+          ease: "power2.out",
+        },
+        "<+0.04",
+      )
+      .to(
         assemblyCopy,
         {
           autoAlpha: 1,
@@ -172,7 +268,7 @@ export function animateNarrativeReveal(
         ">-0.08",
       )
       .to(
-        [assemblySystem, assemblyLogo].filter(Boolean),
+        [assemblySystem, assemblyLogo, assemblyIdentity].filter(Boolean),
         {
           autoAlpha: 0.34,
           x: -80,

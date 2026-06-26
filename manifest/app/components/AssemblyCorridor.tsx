@@ -19,12 +19,24 @@ export function AssemblyCorridor() {
       data-assembly-section
     >
       <div className="assembly-corridor__stage" data-assembly-stage>
+        <div className="assembly-corridor__idea" aria-hidden="true" data-assembly-idea>
+          {"idea".split("").map((letter) => (
+            <span key={letter} data-assembly-idea-letter>
+              {letter}
+            </span>
+          ))}
+        </div>
+
         <div className="assembly-corridor__field" aria-hidden="true">
           {assemblyFragments.map((fragment) => (
             <span className={fragment.className} key={fragment.text} data-assembly-fragment>
               {fragment.text}
             </span>
           ))}
+        </div>
+
+        <div className="assembly-corridor__identity" aria-hidden="true" data-assembly-identity>
+          identity
         </div>
 
         <div className="assembly-corridor__system" data-assembly-system>

@@ -751,7 +751,7 @@ textarea {
 
 .assembly-corridor {
   position: relative;
-  min-height: 240vh;
+  min-height: 285vh;
   background:
     radial-gradient(circle at 50% 50%, rgba(213, 164, 90, 0.1), transparent 24rem),
     radial-gradient(circle at 72% 30%, rgba(125, 226, 195, 0.05), transparent 18rem),
@@ -776,8 +776,38 @@ textarea {
   pointer-events: none;
 }
 
+.assembly-corridor__idea,
+.assembly-corridor__identity {
+  position: absolute;
+  z-index: 1;
+  color: rgba(245, 238, 223, 0.86);
+  font-family: var(--font-cinzel), Georgia, serif;
+  font-size: clamp(5.5rem, 18vw, 17rem);
+  font-weight: 600;
+  line-height: 0.82;
+  text-transform: uppercase;
+  pointer-events: none;
+  will-change: transform, opacity, filter, letter-spacing;
+}
+
+.assembly-corridor__idea {
+  color: rgba(245, 238, 223, 0.78);
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 64px rgba(213, 164, 90, 0.12);
+}
+
+.assembly-corridor__identity {
+  color: rgba(245, 238, 223, 0.9);
+  font-size: clamp(3.9rem, 11vw, 10rem);
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 34px rgba(213, 164, 90, 0.16),
+    0 0 120px rgba(125, 226, 195, 0.08);
+}
+
 .assembly-fragment {
   position: absolute;
+  z-index: 2;
   color: rgba(245, 238, 223, 0.28);
   font-family: var(--font-cinzel), Georgia, serif;
   font-size: clamp(2rem, 6vw, 6rem);
@@ -1571,7 +1601,7 @@ textarea {
   }
 
   .assembly-corridor {
-    min-height: 190vh;
+    min-height: 235vh;
   }
 
   .assembly-corridor__stage {
@@ -1582,6 +1612,15 @@ textarea {
     width: min(90vw, 520px);
     justify-self: center;
     margin-left: 0;
+  }
+
+  .assembly-corridor__idea {
+    font-size: clamp(4.4rem, 24vw, 8rem);
+  }
+
+  .assembly-corridor__identity {
+    font-size: clamp(2.7rem, 13vw, 5.3rem);
+    letter-spacing: 0.04em;
   }
 
   .assembly-corridor__copy {
@@ -1743,6 +1782,22 @@ textarea {
     gap: 0.75rem;
     min-height: auto;
     place-items: initial;
+  }
+
+  .assembly-corridor__idea,
+  .assembly-corridor__identity {
+    position: relative;
+    inset: auto;
+    transform: none;
+  }
+
+  .assembly-corridor__idea {
+    display: none;
+  }
+
+  .assembly-corridor__identity {
+    font-size: clamp(2.8rem, 14vw, 5.2rem);
+    letter-spacing: 0.04em;
   }
 
   .assembly-fragment {
