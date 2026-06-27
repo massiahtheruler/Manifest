@@ -1,7 +1,7 @@
 "use client";
 
 import emailjs from "@emailjs/browser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { emailConfig, intakeContent } from "../content/contact";
 import { offers } from "../content/offers";
 import { siteContent } from "../content/site";
@@ -37,6 +37,37 @@ function getInitialValues() {
 export function IdentityGapForm() {
   const [values, setValues] = useState(getInitialValues);
   const [status, setStatus] = useState<FormStatus>("idle");
+
+  useEffect(() => {
+    function selectService(service: string) {
+      if (!serviceOptions.includes(service)) {
+        return;
+      }
+
+      setValues((current) => ({ ...current, service }));
+      setStatus("idle");
+    }
+
+    function handleServiceSelect(event: Event) {
+      selectService((event as CustomEvent<string>).detail);
+    }
+
+    function handlePopState() {
+      const service = new URLSearchParams(window.location.search).get("service");
+
+      if (service) {
+        selectService(service);
+      }
+    }
+
+    window.addEventListener("manifest:service-select", handleServiceSelect);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("manifest:service-select", handleServiceSelect);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   function handleChange(
     event: React.ChangeEvent<

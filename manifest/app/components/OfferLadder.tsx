@@ -1,6 +1,34 @@
+"use client";
+
 import { offers } from "../content/offers";
 
 export function OfferLadder() {
+  function handleOfferClick(
+    event: React.MouseEvent<HTMLAnchorElement>,
+    offerTitle: string,
+  ) {
+    event.preventDefault();
+
+    const encodedOffer = encodeURIComponent(offerTitle);
+    const nextUrl = `/?service=${encodedOffer}#identity-gap-form`;
+
+    window.history.pushState(null, "", nextUrl);
+    window.dispatchEvent(
+      new CustomEvent("manifest:service-select", { detail: offerTitle }),
+    );
+
+    document.getElementById("identity-gap-form")?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+      block: "start",
+    });
+
+    window.setTimeout(() => {
+      document.getElementById("service")?.focus({ preventScroll: true });
+    }, 520);
+  }
+
   return (
     <section
       className="section section--offers story-section"
@@ -31,6 +59,7 @@ export function OfferLadder() {
               className="offer-card__link"
               href={`/?service=${encodeURIComponent(offer.title)}#identity-gap-form`}
               aria-label={`Start inquiry for ${offer.title}`}
+              onClick={(event) => handleOfferClick(event, offer.title)}
             >
               <div>
                 <h3>{offer.title}</h3>
