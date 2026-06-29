@@ -1,4 +1,5 @@
 :root {
+  /* Core palette */
   --black: #030303;
   --black-soft: #080806;
   --graphite: #151411;
@@ -13,9 +14,13 @@
   --accent: #7de2c3;
   --danger: #e79b7a;
   --success: #9be2ac;
+
+  /* Layout */
   --max: 1180px;
   --gutter: clamp(1rem, 3vw, 2.5rem);
   --radius: 22px;
+
+  /* Shared surface system */
   --surface-radius: 24px 24px 10px 24px;
   --field-radius: 14px 14px 8px 14px;
   --surface-line: rgba(242, 216, 159, 0.14);
@@ -1061,14 +1066,25 @@ textarea {
   overflow: hidden;
 }
 
+/* Borderless surface illusion: keep the dark sides open and draw only the lit edge. */
 .assembly-corridor__system::after {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 0 38%, var(--surface-edge) 74%, var(--surface-edge-cool) 100%) top / 100% 1px no-repeat,
-    linear-gradient(180deg, var(--surface-edge) 0%, rgba(242, 216, 159, 0.12) 46%, transparent 100%) right / 1px 100% no-repeat;
+    linear-gradient(
+      90deg,
+      transparent 0 38%,
+      var(--surface-edge) 74%,
+      var(--surface-edge-cool) 100%
+    ) top / 100% 1px no-repeat,
+    linear-gradient(
+      180deg,
+      var(--surface-edge) 0%,
+      rgba(242, 216, 159, 0.12) 46%,
+      transparent 100%
+    ) right / 1px 100% no-repeat;
   content: "";
 }
 
@@ -1319,8 +1335,18 @@ textarea {
   border-radius: inherit;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 0 34%, var(--surface-edge) 72%, var(--surface-edge-cool) 100%) top / 100% 1px no-repeat,
-    linear-gradient(180deg, var(--surface-edge) 0%, rgba(242, 216, 159, 0.12) 44%, transparent 100%) right / 1px 100% no-repeat;
+    linear-gradient(
+      90deg,
+      transparent 0 34%,
+      var(--surface-edge) 72%,
+      var(--surface-edge-cool) 100%
+    ) top / 100% 1px no-repeat,
+    linear-gradient(
+      180deg,
+      var(--surface-edge) 0%,
+      rgba(242, 216, 159, 0.12) 44%,
+      transparent 100%
+    ) right / 1px 100% no-repeat;
   content: "";
 }
 
@@ -1382,6 +1408,7 @@ textarea {
   backdrop-filter: blur(10px) saturate(1.06);
 }
 
+/* Shared edge mask for card-like sections. No full border by design. */
 .gap-point::after,
 .method-card::after,
 .offer-card::after,
@@ -1394,9 +1421,23 @@ textarea {
   border-radius: inherit;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 0 36%, var(--surface-edge) 74%, var(--surface-edge-cool) 100%) top / 100% 1px no-repeat,
-    linear-gradient(180deg, var(--surface-edge) 0%, rgba(242, 216, 159, 0.11) 46%, transparent 100%) right / 1px 100% no-repeat,
-    radial-gradient(circle at 100% 0%, rgba(242, 216, 159, 0.12), transparent 38%) top right / 42% 42% no-repeat;
+    linear-gradient(
+      90deg,
+      transparent 0 36%,
+      var(--surface-edge) 74%,
+      var(--surface-edge-cool) 100%
+    ) top / 100% 1px no-repeat,
+    linear-gradient(
+      180deg,
+      var(--surface-edge) 0%,
+      rgba(242, 216, 159, 0.11) 46%,
+      transparent 100%
+    ) right / 1px 100% no-repeat,
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(242, 216, 159, 0.12),
+      transparent 38%
+    ) top right / 42% 42% no-repeat;
   content: "";
 }
 
@@ -1459,6 +1500,7 @@ textarea {
   overflow: hidden;
 }
 
+/* Full-bleed horizontal scene, while the intro stays aligned to the site shell. */
 .section--method {
   width: 100%;
   max-width: none;
@@ -1475,15 +1517,24 @@ textarea {
   align-items: stretch;
   gap: clamp(1.1rem, 2.8vw, 2rem);
   width: max-content;
-  padding-left: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  padding-left: max(
+    var(--gutter),
+    calc((100vw - var(--max)) / 2 + var(--gutter))
+  );
   padding-right: max(var(--gutter), calc((100vw - var(--max)) / 2 + 18vw));
 }
 
 .method-sequence__rail {
   position: absolute;
   top: clamp(1rem, 3vw, 2rem);
-  right: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
-  left: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  right: max(
+    var(--gutter),
+    calc((100vw - var(--max)) / 2 + var(--gutter))
+  );
+  left: max(
+    var(--gutter),
+    calc((100vw - var(--max)) / 2 + var(--gutter))
+  );
   width: auto;
   height: 1px;
   background: rgba(245, 238, 223, 0.08);
