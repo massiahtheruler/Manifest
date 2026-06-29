@@ -20,7 +20,9 @@
   --field-radius: 14px 14px 8px 14px;
   --surface-line: rgba(242, 216, 159, 0.14);
   --surface-line-strong: rgba(242, 216, 159, 0.24);
-  --surface-glass: rgba(8, 8, 6, 0.34);
+  --surface-glass: rgba(8, 8, 6, 0.24);
+  --surface-edge: rgba(242, 216, 159, 0.22);
+  --surface-edge-cool: rgba(125, 226, 195, 0.16);
   --shadow: 0 30px 90px rgba(0, 0, 0, 0.44);
 }
 
@@ -1038,7 +1040,6 @@ textarea {
   aspect-ratio: 1.55;
   place-items: center;
   margin-left: clamp(0rem, 5vw, 4rem);
-  border: 1px solid var(--surface-line);
   border-radius: var(--surface-radius);
   background:
     radial-gradient(
@@ -1058,6 +1059,17 @@ textarea {
   -webkit-backdrop-filter: blur(10px) saturate(1.1);
   backdrop-filter: blur(10px) saturate(1.1);
   overflow: hidden;
+}
+
+.assembly-corridor__system::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 38%, var(--surface-edge) 74%, var(--surface-edge-cool) 100%) top / 100% 1px no-repeat,
+    linear-gradient(180deg, var(--surface-edge) 0%, rgba(242, 216, 159, 0.12) 46%, transparent 100%) right / 1px 100% no-repeat;
+  content: "";
 }
 
 .assembly-corridor__system-line {
@@ -1284,7 +1296,7 @@ textarea {
 }
 
 .gap-pivot__card {
-  border: 1px solid var(--surface-line);
+  position: relative;
   border-radius: var(--surface-radius);
   background:
     linear-gradient(
@@ -1299,6 +1311,17 @@ textarea {
   -webkit-backdrop-filter: blur(10px) saturate(1.05);
   backdrop-filter: blur(10px) saturate(1.05);
   padding: clamp(1.1rem, 3vw, 2rem);
+}
+
+.gap-pivot__card::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 34%, var(--surface-edge) 72%, var(--surface-edge-cool) 100%) top / 100% 1px no-repeat,
+    linear-gradient(180deg, var(--surface-edge) 0%, rgba(242, 216, 159, 0.12) 44%, transparent 100%) right / 1px 100% no-repeat;
+  content: "";
 }
 
 .gap-pivot__card span {
@@ -1343,7 +1366,7 @@ textarea {
 .trust-panel,
 .contact-form-shell,
 .audience-panel {
-  border: 1px solid var(--surface-line);
+  position: relative;
   border-radius: var(--surface-radius);
   background:
     linear-gradient(
@@ -1357,6 +1380,24 @@ textarea {
     0 30px 80px rgba(0, 0, 0, 0.24);
   -webkit-backdrop-filter: blur(10px) saturate(1.06);
   backdrop-filter: blur(10px) saturate(1.06);
+}
+
+.gap-point::after,
+.method-card::after,
+.offer-card::after,
+.proof-card::after,
+.trust-panel::after,
+.contact-form-shell::after,
+.audience-panel::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 36%, var(--surface-edge) 74%, var(--surface-edge-cool) 100%) top / 100% 1px no-repeat,
+    linear-gradient(180deg, var(--surface-edge) 0%, rgba(242, 216, 159, 0.11) 46%, transparent 100%) right / 1px 100% no-repeat,
+    radial-gradient(circle at 100% 0%, rgba(242, 216, 159, 0.12), transparent 38%) top right / 42% 42% no-repeat;
+  content: "";
 }
 
 .gap-point {
